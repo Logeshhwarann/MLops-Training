@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Accident Severity Prediction</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}" />
+</head>
+<body>
+    <div class="container py-5">
+        <div class="text-center mb-5">
+            <h1>Accident Severity Prediction</h1>
+            <p class="lead">Enter road and weather details to predict whether an accident will be slight or serious.</p>
+        </div>
+
+        {% if result %}
+        <div class="alert alert-info rounded-4" role="alert">
+            <h4 class="alert-heading">Prediction Result</h4>
+            <p class="mb-1"><strong>{{ result.label }}</strong></p>
+            <p class="mb-1">Impact Level: <strong>{{ result.impact_label }}</strong></p>
+            <p class="mb-1">Prediction Confidence: <strong>{{ (result.probability * 100) | round(1) }}%</strong> — {{ result.confidence_text }}</p>
+            <p class="mb-1">Model Accuracy: <strong>{{ (result.accuracy * 100) | round(1) }}%</strong></p>
+            <p class="mb-0">{{ result.risk_message }}</p>
+            <hr>
+            <div class="row">
+                {% for label, prob in result.probabilities %}
+                <div class="col-md-4">
+                    <div class="small text-muted">{{ label }}</div>
+                    <div class="fw-bold">{{ (prob * 100) | round(1) }}%</div>
+                </div>
+                {% endfor %}
+            </div>
+        </div>
+        {% endif %}
+
+        <div class="card shadow-sm mb-4">
+            <div class="card-body">
+                <form method="POST" action="/">
+                    <div class="row g-3">
+                        <div class="col-md-4">
+                            <label for="month" class="form-label">Month</label>
+                            <select id="month" name="month" class="form-select" required>
+                                {% for option in options.month %}
+                                <option value="{{ option }}" {% if values.month == option %}selected{% endif %}>{{ option }}</option>
+                                {% endfor %}
+                            </select>
+                        </div>
+                        <div class="col-md-4">
+                            <label for="day_of_week" class="form-label">Day of Week</label>
+                            <select id="day_of_week" name="day_of_week" class="form-select" required>
+                                {% for option in options.day_of_week %}
+                                <option value="{{ option }}" {% if values.day_of_week == option %}selected{% endif %}>{{ option }}</option>
+                                {% endfor %}
+                            </select>
+                        </div>
+                        <div class="col-md-4">
+                            <label for="speed_limit" class="form-label">Speed Limit</label>
+                            <input type="number" id="speed_limit" name="speed_limit" class="form-control" min="10" max="100" value="{{ values.speed_limit }}" required />
+                        </div>
+                        <div class="col-md-4">
+                            <label for="vehicles" class="form-label">Number of Vehicles</label>
+                            <input type="number" id="vehicles" name="vehicles" class="form-control" min="1" max="10" value="{{ values.vehicles }}" required />
+                        </div>
+                        <div class="col-md-4">
+                            <label for="casualties" class="form-label">Number of Casualties</label>
+                            <input type="number" id="casualties" name="casualties" class="form-control" min="0" max="10" value="{{ values.casualties }}" required />
+                        </div>
+                        <div class="col-md-4">
+                            <label for="weather_conditions" class="form-label">Weather Conditions</label>
+                            <select id="weather_conditions" name="weather_conditions" class="form-select" required>
+                                {% for option in options.weather_conditions %}
+                                <option value="{{ option }}" {% if values.weather_conditions == option %}selected{% endif %}>{{ option }}</option>
+                                {% endfor %}
+                            </select>
+                        </div>
+                        <div class="col-md-4">
+                            <label for="road_type" class="form-label">Road Type</label>
+                            <select id="road_type" name="road_type" class="form-select" required>
+                                {% for option in options.road_type %}
+                                <option value="{{ option }}" {% if values.road_type == option %}selected{% endif %}>{{ option }}</option>
+                                {% endfor %}
+                            </select>
+                        </div>
+                        <div class="col-md-4">
+                            <label for="road_surface_conditions" class="form-label">Road Surface</label>
+                            <select id="road_surface_conditions" name="road_surface_conditions" class="form-select" required>
+                                {% for option in options.road_surface_conditions %}
+                                <option value="{{ option }}" {% if values.road_surface_conditions == option %}selected{% endif %}>{{ option }}</option>
+                                {% endfor %}
+                            </select>
+                        </div>
+                        <div class="col-md-4">
+                            <label for="light_conditions" class="form-label">Light Conditions</label>
+                            <select id="light_conditions" name="light_conditions" class="form-select" required>
+                                {% for option in options.light_conditions %}
+                                <option value="{{ option }}" {% if values.light_conditions == option %}selected{% endif %}>{{ option }}</option>
+                                {% endfor %}
+                            </select>
+                        </div>
+                        <div class="col-md-4">
+                            <label for="junction_control" class="form-label">Junction Control</label>
+                            <select id="junction_control" name="junction_control" class="form-select" required>
+                                {% for option in options.junction_control %}
+                                <option value="{{ option }}" {% if values.junction_control == option %}selected{% endif %}>{{ option }}</option>
+                                {% endfor %}
+                            </select>
+                        </div>
+                        <div class="col-md-4">
+                            <label for="junction_detail" class="form-label">Junction Detail</label>
+                            <select id="junction_detail" name="junction_detail" class="form-select" required>
+                                {% for option in options.junction_detail %}
+                                <option value="{{ option }}" {% if values.junction_detail == option %}selected{% endif %}>{{ option }}</option>
+                                {% endfor %}
+                            </select>
+                        </div>
+                        <div class="col-md-4">
+                            <label for="vehicle_type" class="form-label">Vehicle Type</label>
+                            <select id="vehicle_type" name="vehicle_type" class="form-select" required>
+                                {% for option in options.vehicle_type %}
+                                <option value="{{ option }}" {% if values.vehicle_type == option %}selected{% endif %}>{{ option }}</option>
+                                {% endfor %}
+                            </select>
+                        </div>
+                        <div class="col-md-4">
+                            <label for="urban_or_rural_area" class="form-label">Area Type</label>
+                            <select id="urban_or_rural_area" name="urban_or_rural_area" class="form-select" required>
+                                {% for option in options.urban_or_rural_area %}
+                                <option value="{{ option }}" {% if values.urban_or_rural_area == option %}selected{% endif %}>{{ option }}</option>
+                                {% endfor %}
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="mt-4 text-end">
+                        <button type="submit" class="btn btn-primary btn-lg">Predict Severity</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+    <script src="{{ url_for('static', filename='js/script.js') }}"></script>
+</body>
+</html>
