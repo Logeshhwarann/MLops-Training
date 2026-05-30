@@ -1,0 +1,82 @@
+{
+  "version": "6.3.0",
+  "flags": {},
+  "shapes": [
+    {
+      "label": "Accident",
+      "points": [
+        [
+          611.8487394957982,
+          152.43697478991595
+        ],
+        [
+          890.8403361344538,
+          262.52100840336135
+        ]
+      ],
+      "group_id": null,
+      "description": "",
+      "shape_type": "rectangle",
+      "flags": {},
+      "mask": null
+    },
+    {
+      "label": "Non-Accident",
+      "points": [
+        [
+          1257.2268907563025,
+          307.89915966386553
+        ],
+        [
+          946.3025210084033,
+          187.7310924369748
+        ]
+      ],
+      "group_id": null,
+      "description": "",
+      "shape_type": "rectangle",
+      "flags": {},
+      "mask": null
+    },
+    {
+      "label": "Non-Accident",
+      "points": [
+        [
+          340.4201680672268,
+          196.1344537815126
+        ],
+        [
+          479.0756302521008,
+          267.56302521008405
+        ]
+      ],
+      "group_id": null,
+      "description": "",
+      "shape_type": "rectangle",
+      "flags": {},
+      "mask": null
+    },
+    {
+      "label": "Non-Accident",
+      "points": [
+        [
+          480.7563025210083,
+          158.31932773109244
+        ],
+        [
+          600.0840336134453,
+          245.71428571428572
+        ]
+      ],
+      "group_id": null,
+      "description": "",
+      "shape_type": "rectangle",
+      "flags": {},
+      "mask": null
+    }
+  ],
+  "imagePath": "sample_frame_30.jpg",
+  "imageData": null,
+  "imageHeight": 720,
+  "imageWidth": 1280
+}

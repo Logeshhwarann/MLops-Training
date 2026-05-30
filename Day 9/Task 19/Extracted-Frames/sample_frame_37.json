@@ -1,0 +1,64 @@
+{
+  "version": "6.3.0",
+  "flags": {},
+  "shapes": [
+    {
+      "label": "Accident",
+      "points": [
+        [
+          426.9747899159663,
+          402.8571428571429
+        ],
+        [
+          11.008403361344463,
+          28.067226890756285
+        ]
+      ],
+      "group_id": null,
+      "description": "",
+      "shape_type": "rectangle",
+      "flags": {},
+      "mask": null
+    },
+    {
+      "label": "Accident",
+      "points": [
+        [
+          159.7478991596638,
+          34.78991596638654
+        ],
+        [
+          855.5462184873949,
+          384.3697478991597
+        ]
+      ],
+      "group_id": null,
+      "description": "",
+      "shape_type": "rectangle",
+      "flags": {},
+      "mask": null
+    },
+    {
+      "label": "Accident",
+      "points": [
+        [
+          533.6974789915965,
+          39.83193277310922
+        ],
+        [
+          1036.218487394958,
+          296.1344537815126
+        ]
+      ],
+      "group_id": null,
+      "description": "",
+      "shape_type": "rectangle",
+      "flags": {},
+      "mask": null
+    }
+  ],
+  "imagePath": "sample_frame_37.jpg",
+  "imageData": null,
+  "imageHeight": 720,
+  "imageWidth": 1280
+}

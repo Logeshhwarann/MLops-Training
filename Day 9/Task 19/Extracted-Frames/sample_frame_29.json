@@ -1,0 +1,82 @@
+{
+  "version": "6.3.0",
+  "flags": {},
+  "shapes": [
+    {
+      "label": "Accident",
+      "points": [
+        [
+          612.689075630252,
+          148.23529411764704
+        ],
+        [
+          824.453781512605,
+          256.6386554621849
+        ]
+      ],
+      "group_id": null,
+      "description": "",
+      "shape_type": "rectangle",
+      "flags": {},
+      "mask": null
+    },
+    {
+      "label": "Non-Accident",
+      "points": [
+        [
+          904.2857142857142,
+          153.27731092436974
+        ],
+        [
+          1252.18487394958,
+          328.06722689075633
+        ]
+      ],
+      "group_id": null,
+      "description": "",
+      "shape_type": "rectangle",
+      "flags": {},
+      "mask": null
+    },
+    {
+      "label": "Non-Accident",
+      "points": [
+        [
+          216.05042016806718,
+          202.85714285714286
+        ],
+        [
+          376.55462184873943,
+          308.73949579831935
+        ]
+      ],
+      "group_id": null,
+      "description": "",
+      "shape_type": "rectangle",
+      "flags": {},
+      "mask": null
+    },
+    {
+      "label": "Non-Accident",
+      "points": [
+        [
+          438.73949579831924,
+          191.9327731092437
+        ],
+        [
+          583.2773109243697,
+          233.109243697479
+        ]
+      ],
+      "group_id": null,
+      "description": "",
+      "shape_type": "rectangle",
+      "flags": {},
+      "mask": null
+    }
+  ],
+  "imagePath": "sample_frame_29.jpg",
+  "imageData": null,
+  "imageHeight": 720,
+  "imageWidth": 1280
+}

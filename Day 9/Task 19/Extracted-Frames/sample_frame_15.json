@@ -1,0 +1,136 @@
+{
+  "version": "6.3.0",
+  "flags": {},
+  "shapes": [
+    {
+      "label": "Non-Accident",
+      "points": [
+        [
+          939.579831932773,
+          212.94117647058823
+        ],
+        [
+          1121.09243697479,
+          314.6218487394958
+        ]
+      ],
+      "group_id": null,
+      "description": "",
+      "shape_type": "rectangle",
+      "flags": {},
+      "mask": null
+    },
+    {
+      "label": "Non-Accident",
+      "points": [
+        [
+          842.1008403361344,
+          156.63865546218486
+        ],
+        [
+          985.7983193277311,
+          196.97478991596637
+        ]
+      ],
+      "group_id": null,
+      "description": "",
+      "shape_type": "rectangle",
+      "flags": {},
+      "mask": null
+    },
+    {
+      "label": "Non-Accident",
+      "points": [
+        [
+          774.0336134453781,
+          96.97478991596638
+        ],
+        [
+          876.5546218487394,
+          151.5966386554622
+        ]
+      ],
+      "group_id": null,
+      "description": "",
+      "shape_type": "rectangle",
+      "flags": {},
+      "mask": null
+    },
+    {
+      "label": "Non-Accident",
+      "points": [
+        [
+          600.0840336134453,
+          76.80672268907563
+        ],
+        [
+          695.8823529411764,
+          128.90756302521007
+        ]
+      ],
+      "group_id": null,
+      "description": "",
+      "shape_type": "rectangle",
+      "flags": {},
+      "mask": null
+    },
+    {
+      "label": "Non-Accident",
+      "points": [
+        [
+          463.9495798319327,
+          57.478991596638636
+        ],
+        [
+          558.90756302521,
+          107.05882352941175
+        ]
+      ],
+      "group_id": null,
+      "description": "",
+      "shape_type": "rectangle",
+      "flags": {},
+      "mask": null
+    },
+    {
+      "label": "Non-Accident",
+      "points": [
+        [
+          385.798319327731,
+          97.81512605042016
+        ],
+        [
+          457.22689075630245,
+          133.94957983193277
+        ]
+      ],
+      "group_id": null,
+      "description": "",
+      "shape_type": "rectangle",
+      "flags": {},
+      "mask": null
+    },
+    {
+      "label": "Non-Accident",
+      "points": [
+        [
+          256.38655462184863,
+          94.45378151260503
+        ],
+        [
+          316.8907563025209,
+          135.63025210084032
+        ]
+      ],
+      "group_id": null,
+      "description": "",
+      "shape_type": "rectangle",
+      "flags": {},
+      "mask": null
+    }
+  ],
+  "imagePath": "sample_frame_15.jpg",
+  "imageData": null,
+  "imageHeight": 720,
+  "imageWidth": 1280
+}
