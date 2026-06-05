@@ -1,0 +1,14 @@
+AI Engineer Intern
+
+Required Skills:
+- Python
+- Machine Learning
+- RAG
+- LangChain
+- Vector Databases
+- FastAPI
+
+Responsibilities:
+- Build AI applications
+- Work with LLMs
+- Develop REST APIs
