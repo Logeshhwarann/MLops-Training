@@ -1,0 +1,337 @@
+{
+  "name": "LinkedIn Profile Fetch Based on Domain",
+  "nodes": [
+    {
+      "parameters": {
+        "jsCode": "const item = $input.first().json;\n\nconst place =\n  item.Place ||\n  item.place ||\n  '';\n\nconst role =\n  item.Role ||\n  item.role ||\n  '';\n\nif (!place || !role) {\n  throw new Error(\n    'Place and Role are required. Input received: ' +\n    JSON.stringify(item)\n  );\n}\n\nreturn [{\n  json: {\n    place: place.trim(),\n    role: role.trim(),\n    searchQuery: `site:linkedin.com/in \"${role}\" \"${place}\"`,\n    submittedAt: item.submittedAt || new Date().toISOString()\n  }\n}];"
+      },
+      "id": "3e9736fc-df3a-4987-ad7f-0f6c7a10dcb9",
+      "name": "Extract & Clean Domain",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        -368,
+        32
+      ]
+    },
+    {
+      "parameters": {
+        "url": "=https://api.hunter.io/v2/domain-search",
+        "sendQuery": true,
+        "queryParameters": {
+          "parameters": [
+            {
+              "name": "api_key",
+              "value": "5334ea11c9106e892a88824d2094ba995d5c5446"
+            },
+            {
+              "name": "domain",
+              "value": "=microsoft.com"
+            }
+          ]
+        },
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "limit",
+              "value": "10"
+            },
+            {
+              "name": "searchQuery",
+              "value": "={{ $json.searchQuery }}"
+            },
+            {
+              "name": "role",
+              "value": "={{ $json.role }}"
+            },
+            {
+              "name": "place",
+              "value": "={{ $json.place }}"
+            }
+          ]
+        },
+        "options": {
+          "timeout": 15000
+        }
+      },
+      "id": "c373a80d-b1cb-4b57-b893-5043ef2e7426",
+      "name": "Hunter.io - Find Emails by Domain (FREE)",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.1,
+      "position": [
+        -128,
+        48
+      ],
+      "notes": "FREE: Hunter.io gives 25 free searches/month. Sign up at hunter.io and get your free API key. Set it as credential: hunterApiKey"
+    },
+    {
+      "parameters": {
+        "jsCode": "const domain = $('Extract & Clean Domain').first().json.domain;\n\nconst hunterData =\n  $('Hunter.io - Find Emails by Domain (FREE)').first().json;\n\nconst hunterEmails =\n  hunterData?.data?.emails || [];\n\nif (hunterEmails.length === 0) {\n  return [{\n    json: {\n      domain,\n      message: 'No profiles found',\n      fetched_at: new Date().toISOString()\n    }\n  }];\n}\n\nreturn hunterEmails.map(e => ({\n  json: {\n    domain,\n    name: [e.first_name, e.last_name].filter(Boolean).join(' '),\n    email: e.value || null,\n    position: e.position || null,\n    seniority: e.seniority || null,\n    department: e.department || null,\n    linkedin_url: e.linkedin || null,\n    twitter: e.twitter || null,\n    phone: e.phone_number || null,\n    confidence: e.confidence || null,\n    source: 'Hunter.io',\n    fetched_at: new Date().toISOString()\n  }\n}));"
+      },
+      "id": "72117b6e-ed11-4b31-8b2d-ed24196afe26",
+      "name": "Merge & Normalize LinkedIn Profiles",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        96,
+        32
+      ]
+    },
+    {
+      "parameters": {
+        "operation": "append",
+        "documentId": {
+          "__rl": true,
+          "mode": "url",
+          "value": "https://docs.google.com/spreadsheets/d/1uub5ErmXcMF0c48_bOrAySaY6f3KcDUXxVn7LY2pOa8/edit?gid=0#gid=0",
+          "__regex": "https:\\/\\/(?:drive|docs)\\.google\\.com(?:\\/.*|)\\/d\\/([0-9a-zA-Z\\-_]+)(?:\\/.*|)"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": "https://docs.google.com/spreadsheets/d/1uub5ErmXcMF0c48_bOrAySaY6f3KcDUXxVn7LY2pOa8/edit?gid=0#gid=0",
+          "mode": "url"
+        },
+        "columns": {
+          "mappingMode": "autoMapInputData",
+          "value": {},
+          "matchingColumns": [],
+          "schema": [
+            {
+              "id": "domain",
+              "displayName": "domain",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "name",
+              "displayName": "name",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "email",
+              "displayName": "email",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "position",
+              "displayName": "position",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "seniority",
+              "displayName": "seniority",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "department",
+              "displayName": "department",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "linkedin_url",
+              "displayName": "linkedin_url",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "twitter",
+              "displayName": "twitter",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "phone",
+              "displayName": "phone",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "confidence",
+              "displayName": "confidence",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "source",
+              "displayName": "source",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "fetched_at",
+              "displayName": "fetched_at",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": false
+        },
+        "options": {
+          "cellFormat": "USER_ENTERED"
+        }
+      },
+      "id": "ac754b1e-6ec8-4c88-b402-35dd2d9446ae",
+      "name": "Append Row in Google Sheets",
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.4,
+      "position": [
+        320,
+        32
+      ],
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "AKBvxszaFc8LGwjF",
+          "name": "Google Sheets account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "formTitle": "Linkedin profile ",
+        "formDescription": "welcome ",
+        "formFields": {
+          "values": [
+            {
+              "fieldLabel": "Place",
+              "placeholder": " (e.g., Chennai, Bangalore, USA)",
+              "requiredField": true
+            },
+            {
+              "fieldLabel": "Role",
+              "placeholder": " (e.g., Software Engineer, HR Manager, AI Engineer)",
+              "requiredField": true
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.formTrigger",
+      "typeVersion": 2.3,
+      "position": [
+        -624,
+        32
+      ],
+      "id": "2aa08b90-a358-4dcd-ae3a-43a9ed4db97f",
+      "name": "On form submission",
+      "webhookId": "7b98d8e9-9399-4c66-a51a-27f56c10a615"
+    }
+  ],
+  "pinData": {},
+  "connections": {
+    "Extract & Clean Domain": {
+      "main": [
+        [
+          {
+            "node": "Hunter.io - Find Emails by Domain (FREE)",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Hunter.io - Find Emails by Domain (FREE)": {
+      "main": [
+        [
+          {
+            "node": "Merge & Normalize LinkedIn Profiles",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Merge & Normalize LinkedIn Profiles": {
+      "main": [
+        [
+          {
+            "node": "Append Row in Google Sheets",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Append Row in Google Sheets": {
+      "main": [
+        []
+      ]
+    },
+    "On form submission": {
+      "main": [
+        [
+          {
+            "node": "Extract & Clean Domain",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": false,
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "versionId": "469422d1-f545-40d0-b4c4-478841555747",
+  "meta": {
+    "templateCredsSetupCompleted": true,
+    "instanceId": "7eec1637e9e557efb27babfe83fdfc17f0d6f2e4de5c8541b968c84c0c276698"
+  },
+  "id": "cEQ47WwPm1QNaoIK",
+  "tags": []
+}
